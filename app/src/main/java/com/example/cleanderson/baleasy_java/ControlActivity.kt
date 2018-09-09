@@ -10,12 +10,16 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import kotlinx.android.synthetic.main.control_layout.*
+import org.jetbrains.anko.toast
 import java.io.IOException
+import java.io.InputStreamReader
 import java.util.*
 
 class ControlActivity: AppCompatActivity(){
 
     companion object {
+        var readArduino: String? = null
+
         var m_myUUID: UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
         var m_bluetoothSocket: BluetoothSocket? = null
         lateinit var m_progress: ProgressDialog
@@ -41,6 +45,8 @@ class ControlActivity: AppCompatActivity(){
         if(m_bluetoothSocket != null){
             try{
                 m_bluetoothSocket!!.outputStream.write(input.toByteArray())
+//                readArduino = m_bluetoothSocket!!.inputStream.read()
+
             }catch(e: IOException){
                 e.printStackTrace()
             }

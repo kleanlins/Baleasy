@@ -50,7 +50,7 @@ class SelectDeviceActivity : AppCompatActivity() {
                 Log.i("device", ""+device)
             }
         } else {
-            toast("No paired devices not found.")
+            toast("No paired devices found.")
         }
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, list)
         select_device_list.adapter = adapter
