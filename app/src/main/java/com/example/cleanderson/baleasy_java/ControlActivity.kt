@@ -12,13 +12,12 @@ import android.util.Log
 import kotlinx.android.synthetic.main.control_layout.*
 import org.jetbrains.anko.toast
 import java.io.IOException
-import java.io.InputStreamReader
+import java.nio.charset.Charset
 import java.util.*
 
 class ControlActivity: AppCompatActivity(){
 
     companion object {
-        var readArduino: String? = null
 
         var m_myUUID: UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
         var m_bluetoothSocket: BluetoothSocket? = null
@@ -42,10 +41,12 @@ class ControlActivity: AppCompatActivity(){
     }
 
     private fun sendCommand(input: String){
+        val inputSt = m_bluetoothSocket!!.inputStream
+        val bt: Byte
+
         if(m_bluetoothSocket != null){
             try{
-                m_bluetoothSocket!!.outputStream.write(input.toByteArray())
-//                readArduino = m_bluetoothSocket!!.inputStream.read()
+//                m_bluetoothSocket!!.outputStream.write(input.toByteArray())
 
             }catch(e: IOException){
                 e.printStackTrace()
