@@ -11,7 +11,9 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
 import kotlinx.android.synthetic.main.control_layout.*
+import org.jetbrains.anko.doAsync
 import java.io.IOException
+import java.nio.charset.Charset
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -52,14 +54,17 @@ class ControlActivity: AppCompatActivity(){
                 m_bluetoothSocket!!.outputStream.write(input.toByteArray())
 
                 val array = ByteArray(15)
+                var arrayString: String? = ""
 
                 val leitura = m_bluetoothSocket!!.inputStream.read(array)
 
                 Toast.makeText(applicationContext, array.joinToString(separator = " "), Toast.LENGTH_SHORT).show()
                 Log.i("device", ""+array.joinToString(separator = " "))
 
-
-
+                for(i in 0..14){
+                    arrayString += array[i].toChar()
+                }
+                Log.i("bytesToString", ""+arrayString)
 
 
             }catch(e: IOException){
@@ -81,12 +86,21 @@ class ControlActivity: AppCompatActivity(){
     }
 
     private fun readFromBluetooth(){
-        while(m_isConnected){
 
-            val array = ByteArray(12)
-            val leitura = m_bluetoothSocket!!.inputStream.read(array)
-            Log.i("device", ""+array.joinToString(separator = " "))
+        doAsync {
+            while (m_isConnected) {
 
+                val array = ByteArray(15)
+                var arrayString: String? = ""
+
+                m_bluetoothSocket!!.inputStream.read(array)
+
+                for(i in 0..14){
+                    arrayString += array[i].toChar()
+                }
+                Log.i("bytesToString", ""+arrayString)
+
+            }
         }
     }
 
