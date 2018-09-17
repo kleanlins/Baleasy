@@ -9,11 +9,11 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.widget.Toast
 import kotlinx.android.synthetic.main.control_layout.*
-import org.jetbrains.anko.toast
 import java.io.IOException
-import java.nio.charset.Charset
 import java.util.*
+import kotlin.collections.ArrayList
 
 class ControlActivity: AppCompatActivity(){
 
@@ -38,15 +38,29 @@ class ControlActivity: AppCompatActivity(){
         control_led_off.setOnClickListener{ sendCommand( "b") }
         control_led_disconnect.setOnClickListener{ disconnect() }
 
+//        readFromBluetooth()
+
+
     }
 
     private fun sendCommand(input: String){
         val inputSt = m_bluetoothSocket!!.inputStream
-        val bt: Byte
+        val inputAsStream: String
 
         if(m_bluetoothSocket != null){
             try{
-//                m_bluetoothSocket!!.outputStream.write(input.toByteArray())
+                m_bluetoothSocket!!.outputStream.write(input.toByteArray())
+
+                val array = ByteArray(15)
+
+                val leitura = m_bluetoothSocket!!.inputStream.read(array)
+
+                Toast.makeText(applicationContext, array.joinToString(separator = " "), Toast.LENGTH_SHORT).show()
+                Log.i("device", ""+array.joinToString(separator = " "))
+
+
+
+
 
             }catch(e: IOException){
                 e.printStackTrace()
@@ -63,6 +77,16 @@ class ControlActivity: AppCompatActivity(){
             }catch(e: IOException){
                 e.printStackTrace()
             }
+        }
+    }
+
+    private fun readFromBluetooth(){
+        while(m_isConnected){
+
+            val array = ByteArray(12)
+            val leitura = m_bluetoothSocket!!.inputStream.read(array)
+            Log.i("device", ""+array.joinToString(separator = " "))
+
         }
     }
 
@@ -93,6 +117,7 @@ class ControlActivity: AppCompatActivity(){
                 connectSuccess = false
                 e.printStackTrace()
             }
+
             return null
         }
 
