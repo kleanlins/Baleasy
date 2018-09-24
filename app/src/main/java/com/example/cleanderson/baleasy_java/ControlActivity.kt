@@ -9,17 +9,16 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import com.github.davidmoten.rx2.Strings
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.control_layout.*
-import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.Android
+import rx.observables.StringObservable
+import rx.Observer
+import rx.schedulers.Schedulers
 import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 class ControlActivity : AppCompatActivity() {
 
@@ -47,7 +46,7 @@ class ControlActivity : AppCompatActivity() {
 
     private fun sendCommand(input: String) {
         val inputSt = m_bluetoothSocket!!.inputStream
-//        val scanner = Scanner(inputSt)
+        val scanner = Scanner(inputSt)
         val inputAsStream: String
         val reader = InputStreamReader(inputSt)
 
@@ -66,23 +65,29 @@ class ControlActivity : AppCompatActivity() {
 
                 val numbers = reading.split(' ').map {
                     it.toInt()
-                }*/
+                }
 
-//                Log.i("device", numbers.joinToString(" "))
+                Log.i("device", numbers.joinToString(" "))*/
 
                 /*do {
                     val reading = m_bluetoothSocket!!.inputStream.read(array)
-                }while(array[3].toInt() != 32)
-*/
+                } while (array[3].toInt() != 32)
 
-
-//                Toast.makeText(applicationContext, array.joinToString(separator = " "), Toast.LENGTH_SHORT).show()
-//                Log.i("device", ""+array.joinToString(separator = " "))
-
-                /*for(i in 0..14){
+                for (i in 0..14) {
                     arrayString += array[i].toChar()
                 }
-                Log.i("bytesToString", ""+arrayString)*/
+                Log.i("bytesToString", "" + arrayString)
+
+                arrayString = ""*/
+
+
+                /*val reading = scanner.nextLine()
+
+                val numbers = reading.split(' ').map {
+                    it.toInt()
+                }
+
+                Log.i("device", numbers.joinToString(" "))*/
 
 
             } catch (e: IOException) {
@@ -99,25 +104,6 @@ class ControlActivity : AppCompatActivity() {
                 m_isConnected = false
             } catch (e: IOException) {
                 e.printStackTrace()
-            }
-        }
-    }
-
-    private fun readFromBluetooth() {
-
-        doAsync {
-            while (m_isConnected) {
-
-                val array = ByteArray(15)
-                var arrayString: String? = ""
-
-                m_bluetoothSocket!!.inputStream.read(array)
-
-                for (i in 0..14) {
-                    arrayString += array[i].toChar()
-                }
-                Log.i("bytesToString", "" + arrayString)
-
             }
         }
     }
@@ -170,24 +156,24 @@ class ControlActivity : AppCompatActivity() {
 private fun createObservable(inputStream: InputStream) {
     val reader = InputStreamReader(inputStream)
     val scanner = Scanner(inputStream)
-    val reading = scanner.nextLine()
-    val sensors = reading.split(' ').map{
-        it.toInt()
-    }
+    val array = ByteArray(15)
+    var arrayString: String? = ""
 
-    Observable.fromArray(sensors)
-            .delay(100, TimeUnit.MILLISECONDS)
-            .subscribeOn(Schedulers.computation())
-            .subscribe{
-                Log.i("device", sensors.joinToString(" "))
+    StringObservable.byLine(StringObservable.from(reader))
+            .map { it.split(" ") }
+            .subscribeOn(rx.schedulers.Schedulers.computation())
+//            .observeOn(rx.Scheduler)
+            .subscribe{numbers->
+                Log.i("Device", numbers.joinToString(" "))
             }
 
-    /*Strings.from(reader, 15)
-            .map { it.split(" ")
-    }.delay(100, TimeUnit.MILLISECONDS)
+    /*Strings.from(reader)
+            .map { it.split(" ") }
+            .delay(17, TimeUnit.MILLISECONDS)
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { numbers ->
-                Log.i("device", numbers.joinToString(" "))
+            .subscribe {
+                if(it.size == 15)
+                    Log.i("device", it.joinToString(" "))
             }*/
 }
