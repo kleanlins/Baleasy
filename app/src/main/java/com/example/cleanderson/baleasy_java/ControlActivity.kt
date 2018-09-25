@@ -5,7 +5,6 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
 import android.content.Context
-import android.icu.util.TimeUnit
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -17,11 +16,15 @@ import rx.observables.StringObservable
 import io.reactivex.Observable
 import hu.akarnokd.rxjava.interop.RxJavaInterop
 import io.reactivex.schedulers.Schedulers
-import org.jetbrains.anko.Android
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.Dispatchers
 import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.util.*
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.delay
+import org.jetbrains.anko.UI
 
 class ControlActivity : AppCompatActivity() {
 
@@ -41,19 +44,16 @@ class ControlActivity : AppCompatActivity() {
 
         ConnectToDevice(this).execute()
 
-        control_led_on.setOnClickListener { sendCommand("a") }
-        control_led_off.setOnClickListener { sendCommand("b") }
+        control_led_on.setOnClickListener { sendCommand() }
+        control_led_off.setOnClickListener { sendCommand() }
         control_led_disconnect.setOnClickListener { disconnect() }
 
     }
 
-    private fun sendCommand(input: String) {
+    private fun sendCommand() {
         if (m_bluetoothSocket != null) {
-            try {
-                m_bluetoothSocket!!.outputStream.write(input.toByteArray())
-
-            } catch (e: IOException) {
-                e.printStackTrace()
+            val job = launch(Dispatchers.Default){
+                readFromArduino(m_bluetoothSocket!!.inputStream)
             }
         }
     }
@@ -67,6 +67,16 @@ class ControlActivity : AppCompatActivity() {
             } catch (e: IOException) {
                 e.printStackTrace()
             }
+        }
+    }
+
+    private suspend fun readFromArduino(inputStream: InputStream){
+        val scanner = Scanner(inputStream)
+        var line: String
+
+        while(true) {
+            line = scanner.nextLine()
+            Log.i("device", line)
         }
     }
 
@@ -107,7 +117,7 @@ class ControlActivity : AppCompatActivity() {
                 Log.i("DATA", "Coudn't connect.")
             } else {
                 m_isConnected = true
-                createObservable(m_bluetoothSocket!!.inputStream)
+//                createObservable(m_bluetoothSocket!!.inputStream)
             }
             m_progress.dismiss()
         }
