@@ -57,7 +57,7 @@ class ControlActivity : AppCompatActivity() {
 
                 while(true) {
                     line = scanner.nextLine()
-                    Log.i("device", line)
+//                    Log.i("device", line)
 
                     sensorValues = line.split(" ")
 
