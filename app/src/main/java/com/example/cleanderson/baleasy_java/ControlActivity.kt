@@ -1,5 +1,6 @@
 package com.example.cleanderson.baleasy_java
 
+import android.animation.ObjectAnimator
 import android.app.ProgressDialog
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
@@ -81,25 +82,6 @@ class ControlActivity : AppCompatActivity() {
             } catch (e: IOException) {
                 e.printStackTrace()
             }
-        }
-    }
-
-    private suspend fun readFromArduino(inputStream: InputStream){
-        val scanner = Scanner(inputStream)
-        var line: String
-        var sensorValues: List<String>
-
-        while(true) {
-            line = scanner.nextLine()
-            Log.i("device", line)
-
-            sensorValues = line.split(" ")
-
-            front_left.text = sensorValues[0]
-            front_right.text = sensorValues[1]
-            rear_left.text = sensorValues[2]
-            rear_right.text = sensorValues[3]
-
         }
     }
 
