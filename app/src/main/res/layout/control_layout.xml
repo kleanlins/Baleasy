@@ -1,35 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <Button
-        android:text="@string/on"
-        android:id="@+id/control_led_on"
+        android:text="@string/switch_on_off"
+        android:id="@+id/switch_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
-
-
-    <Button
-        android:text="@string/off"
-        android:id="@+id/control_led_off"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/control_led_on"/>
-
+        app:layout_constraintRight_toLeftOf="@+id/control_led_disconnect"/>
 
     <Button
         android:text="@string/disconnect"
         android:id="@+id/control_led_disconnect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/control_led_off"/>
+        app:layout_constraintLeft_toRightOf="@+id/switch_button"
+        app:layout_constraintRight_toRightOf="@+id/next_step_btn"/>
+
+    <Button
+        android:id="@+id/next_step_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/next"
+        app:layout_constraintLeft_toRightOf="@+id/control_led_disconnect"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <TextView
+        android:id="@+id/front_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="44dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch_button" />
+
+    <TextView
+        android:id="@+id/front_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="144dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/front_right" />
+
+    <TextView
+        android:id="@+id/rear_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="384dp"
+        android:layout_marginTop="144dp"
+        android:layout_marginEnd="48dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/front_left"
+        app:layout_constraintTop_toBottomOf="@+id/rear_right" />
+
+    <TextView
+        android:id="@+id/rear_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="384dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="48dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/front_right"
+        app:layout_constraintTop_toBottomOf="@+id/switch_button" />
+
+    <ImageView
+        android:id="@+id/car_img"
+        android:layout_width="428dp"
+        android:layout_height="280dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/car" />
+
+    <TextView
+        android:id="@+id/tips_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="276dp"
+        android:layout_marginEnd="8dp"
+        android:text="Inicio da Baliza"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch_button" />
+
+    <ImageView
+        android:id="@+id/sensor_draw1"
+        android:layout_width="77dp"
+        android:layout_height="79dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="36dp"
+        app:layout_constraintStart_toStartOf="@+id/car_img"
+        app:layout_constraintTop_toTopOf="@+id/car_img"
+        app:srcCompat="@drawable/curve" />
+
+    <ImageView
+        android:id="@+id/steering_img"
+        android:layout_width="53dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/tips_text"
+        app:layout_constraintEnd_toEndOf="@+id/car_img"
+        app:layout_constraintStart_toStartOf="@+id/car_img"
+        app:srcCompat="@drawable/steering" />
+
+
 
 </android.support.constraint.ConstraintLayout>

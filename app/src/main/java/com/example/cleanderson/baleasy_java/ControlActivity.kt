@@ -9,22 +9,18 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import com.github.davidmoten.rx2.Strings
+import android.widget.TextView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.control_layout.*
 import rx.observables.StringObservable
-import io.reactivex.Observable
 import hu.akarnokd.rxjava.interop.RxJavaInterop
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.android.Main
 import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.util.*
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.delay
-import org.jetbrains.anko.UI
 
 class ControlActivity : AppCompatActivity() {
 
@@ -44,16 +40,34 @@ class ControlActivity : AppCompatActivity() {
 
         ConnectToDevice(this).execute()
 
-        control_led_on.setOnClickListener { sendCommand() }
-        control_led_off.setOnClickListener { sendCommand() }
+        switch_button.setOnClickListener { startStream(front_left, front_right, rear_left, rear_right) }
         control_led_disconnect.setOnClickListener { disconnect() }
 
     }
 
-    private fun sendCommand() {
+    fun startStream(fl: TextView, fr: TextView, rl: TextView, rr: TextView) {
         if (m_bluetoothSocket != null) {
-            val job = launch(Dispatchers.Default){
-                readFromArduino(m_bluetoothSocket!!.inputStream)
+            GlobalScope.async(Dispatchers.Main){
+//                readFromArduino(m_bluetoothSocket!!.inputStream)
+
+                val scanner = Scanner(m_bluetoothSocket!!.inputStream)
+                var line: String
+                var sensorValues: List<String>
+
+                while(true) {
+                    line = scanner.nextLine()
+                    Log.i("device", line)
+
+                    sensorValues = line.split(" ")
+
+                    fl.text = sensorValues[0]
+                    fr.text = sensorValues[1]
+                    rl.text = sensorValues[2]
+                    rr.text = sensorValues[3]
+
+                    delay(100)
+
+                }
             }
         }
     }
@@ -73,10 +87,19 @@ class ControlActivity : AppCompatActivity() {
     private suspend fun readFromArduino(inputStream: InputStream){
         val scanner = Scanner(inputStream)
         var line: String
+        var sensorValues: List<String>
 
         while(true) {
             line = scanner.nextLine()
             Log.i("device", line)
+
+            sensorValues = line.split(" ")
+
+            front_left.text = sensorValues[0]
+            front_right.text = sensorValues[1]
+            rear_left.text = sensorValues[2]
+            rear_right.text = sensorValues[3]
+
         }
     }
 
