@@ -154,8 +154,6 @@
         android:layout_height="79dp"
         android:layout_marginEnd="1dp"
         android:layout_marginTop="10dp"
-        android:transformPivotX="0dp"
-        android:transformPivotY="0dp"
         android:rotation="-135"
         android:scaleX=".4"
         android:scaleY="2.3"
