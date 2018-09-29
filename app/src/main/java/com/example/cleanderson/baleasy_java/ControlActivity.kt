@@ -9,13 +9,13 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.view.Window
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.TextView
 import kotlinx.android.synthetic.main.control_layout.*
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.Main
+import kotlinx.coroutines.experimental.android.UI
 import java.io.IOException
 import java.util.*
 
@@ -29,16 +29,22 @@ class ControlActivity : AppCompatActivity() {
         var m_isConnected: Boolean = false
         lateinit var m_address: String
 
-        var tip_stage: Int = -1
+        const val sensor_limit = 30
+        var tip_stage: Int = 0
         val tip_list: List<String> = listOf(
                 "Inicio da Baliza",
-                "Esterce totalmente o volante para o lado indicado",
-                "Gire o volante totalmente ao contrário",
+                "Esterça totalmente o volante para o lado indicado",
+                "Agora gire o volante totalmente ao contrário",
                 "Ajuste o volante o necessário para finalizar")
 
         var rotateLeft: Animation? = null
         var rotateRight: Animation? = null
         var blink: Animation? = null
+
+        var lv_fl: Int = 0
+        var lv_fr: Int = 0
+        var lv_rl: Int = 0
+        var lv_rr: Int = 0
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,22 +67,45 @@ class ControlActivity : AppCompatActivity() {
         rotateRight = AnimationUtils.loadAnimation(this, R.anim.rotate_right)
         blink = AnimationUtils.loadAnimation(this, R.anim.blink)
 
+
     }
 
     private fun changeState(){
-        if(tip_stage == 3)
+
+        Log.i("STATE", tip_stage.toString())
+
+        if(tip_stage == 4) {
+            next_step_btn.text = "START"
             tip_stage = 0
+        }
         else
-            tip_stage++
+            next_step_btn.text = "NEXT"
+
 
         when(tip_stage){
-            0 -> enterLeft()
-            1 -> enterRight()
+            0 -> {
+                turnLeft()
+                tips_text.text = tip_list[tip_stage]
+            }
+            1 -> {
+                turnRight()
+                tips_text.text = tip_list[tip_stage]
+            }
+            2 -> {
+
+                tips_text.text = tip_list[tip_stage]
+            }
+            3 -> {
+
+                tips_text.text = tip_list[tip_stage]
+            }
         }
+
+        tip_stage++
+
     }
 
-    private fun enterLeft(){
-        Log.i("STATE", tip_stage.toString())
+    private fun turnLeft(){
 
         left_arrow.alpha = 1.0f
         right_arrow.alpha = 0.0f
@@ -86,8 +115,7 @@ class ControlActivity : AppCompatActivity() {
         steering_img.startAnimation(rotateLeft)
     }
 
-    private fun enterRight(){
-        Log.i("STATE", tip_stage.toString())
+    private fun turnRight(){
 
         right_arrow.alpha = 1.0f
         left_arrow.alpha = 0.0f
@@ -95,6 +123,15 @@ class ControlActivity : AppCompatActivity() {
 
         steering_img.clearAnimation()
         steering_img.startAnimation(rotateRight)
+    }
+
+    private fun scaleValue(value: Int): Float{
+        var lValue = value
+
+        if(lValue > sensor_limit)
+            lValue = sensor_limit
+
+        return ((lValue/0.3f)/100) * 2.3f
     }
 
     private fun startStream(fl: TextView, fr: TextView, rl: TextView, rr: TextView) {
@@ -107,16 +144,34 @@ class ControlActivity : AppCompatActivity() {
 
                 while(true) {
                     line = scanner.nextLine()
-//                    Log.i("device", line)
+                    Log.i("device", line)
 
                     sensorValues = line.split(" ")
 
-                    fl.text = sensorValues[0]
-                    fr.text = sensorValues[1]
-                    rl.text = sensorValues[2]
-                    rr.text = sensorValues[3]
+                    fl.text = sensorValues[0].toInt().toString() + "cm"
+                    fr.text = sensorValues[1].toInt().toString() + "cm"
+                    rl.text = sensorValues[2].toInt().toString() + "cm"
+                    rr.text = sensorValues[3].toInt().toString() + "cm"
 
-                    delay(100)
+                    if(sensorValues[0].toInt() != 0)
+                        lv_fl = sensorValues[0].toInt()
+
+                    if(sensorValues[1].toInt() != 0)
+                        lv_fr = sensorValues[1].toInt()
+
+                    if(sensorValues[2].toInt() != 0)
+                        lv_rl = sensorValues[2].toInt()
+
+                    if(sensorValues[3].toInt() != 0)
+                        lv_rr = sensorValues[3].toInt()
+
+
+                    sensor_fl.scaleY = scaleValue(lv_fl)
+                    sensor_fr.scaleY = scaleValue(lv_fr)
+                    sensor_rl.scaleY = scaleValue(lv_rl)
+                    sensor_rr.scaleY = scaleValue(lv_rr)
+
+                    delay(150)
 
                 }
             }

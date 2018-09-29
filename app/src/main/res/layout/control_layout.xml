@@ -27,7 +27,7 @@
         android:id="@+id/next_step_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/next"
+        android:text="@string/start"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/control_led_disconnect"
         app:layout_constraintRight_toRightOf="parent"/>
@@ -101,7 +101,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="Inicio da Baliza"
+        android:text="Bem-vindo ao Baleasy"
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
@@ -113,44 +113,55 @@
         android:id="@+id/sensor_fr"
         android:layout_width="77dp"
         android:layout_height="79dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="10dp"
+        android:rotation="135"
+        android:scaleX="0.4"
+        android:scaleY="2.3"
         app:layout_constraintStart_toStartOf="@+id/car_img"
         app:layout_constraintTop_toTopOf="@+id/car_img"
-        app:srcCompat="@drawable/curve" />
+        app:srcCompat="@drawable/trapezium" />
 
     <ImageView
         android:id="@+id/sensor_fl"
         android:layout_width="77dp"
         android:layout_height="79dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginBottom="36dp"
-        android:rotation="270"
+        android:layout_marginStart="1dp"
+        android:layout_marginBottom="10dp"
+        android:rotation="45"
+        android:scaleX="0.4"
+        android:scaleY="2.3"
         app:layout_constraintStart_toStartOf="@+id/car_img"
         app:layout_constraintBottom_toBottomOf="@+id/car_img"
-        app:srcCompat="@drawable/curve" />
+        app:srcCompat="@drawable/trapezium" />
 
     <ImageView
         android:id="@+id/sensor_rl"
         android:layout_width="77dp"
         android:layout_height="79dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="36dp"
-        android:rotation="180"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="10dp"
+        android:rotation="-45"
+        android:scaleX="0.4"
+        android:scaleY="2.3"
         app:layout_constraintEnd_toEndOf="@+id/car_img"
         app:layout_constraintBottom_toBottomOf="@+id/car_img"
-        app:srcCompat="@drawable/curve" />
+        app:srcCompat="@drawable/trapezium" />
 
     <ImageView
         android:id="@+id/sensor_rr"
         android:layout_width="77dp"
         android:layout_height="79dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="36dp"
-        android:rotation="90"
+        android:layout_marginEnd="1dp"
+        android:layout_marginTop="10dp"
+        android:transformPivotX="0dp"
+        android:transformPivotY="0dp"
+        android:rotation="-135"
+        android:scaleX=".4"
+        android:scaleY="2.3"
         app:layout_constraintEnd_toEndOf="@+id/car_img"
         app:layout_constraintTop_toTopOf="@+id/car_img"
-        app:srcCompat="@drawable/curve" />
+        app:srcCompat="@drawable/trapezium" />
 
     <ImageView
         android:id="@+id/steering_img"
