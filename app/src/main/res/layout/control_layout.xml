@@ -88,6 +88,7 @@
         android:id="@+id/car_img"
         android:layout_width="428dp"
         android:layout_height="280dp"
+        android:alpha="0.3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -118,6 +119,7 @@
         android:rotation="135"
         android:scaleX="0.4"
         android:scaleY="2.3"
+        android:alpha="0.7"
         app:layout_constraintStart_toStartOf="@+id/car_img"
         app:layout_constraintTop_toTopOf="@+id/car_img"
         app:srcCompat="@drawable/trapezium" />
@@ -131,6 +133,7 @@
         android:rotation="45"
         android:scaleX="0.4"
         android:scaleY="2.3"
+        android:alpha="0.7"
         app:layout_constraintStart_toStartOf="@+id/car_img"
         app:layout_constraintBottom_toBottomOf="@+id/car_img"
         app:srcCompat="@drawable/trapezium" />
@@ -144,6 +147,7 @@
         android:rotation="-45"
         android:scaleX="0.4"
         android:scaleY="2.3"
+        android:alpha="0.7"
         app:layout_constraintEnd_toEndOf="@+id/car_img"
         app:layout_constraintBottom_toBottomOf="@+id/car_img"
         app:srcCompat="@drawable/trapezium" />
@@ -157,6 +161,7 @@
         android:rotation="-135"
         android:scaleX=".4"
         android:scaleY="2.3"
+        android:alpha="0.7"
         app:layout_constraintEnd_toEndOf="@+id/car_img"
         app:layout_constraintTop_toTopOf="@+id/car_img"
         app:srcCompat="@drawable/trapezium" />
@@ -165,11 +170,12 @@
         android:id="@+id/steering_img"
         android:layout_width="53dp"
         android:layout_height="48dp"
-        android:rotation="-90"
-        app:layout_constraintEnd_toEndOf="@+id/car_img"
-        app:layout_constraintHorizontal_bias="0.341"
-        app:layout_constraintStart_toStartOf="@+id/car_img"
+        android:rotation="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/steering"
+        android:scaleY="3"
+        android:scaleX="3"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteY="156dp" />
@@ -178,21 +184,25 @@
         android:id="@+id/left_arrow"
         android:layout_width="34dp"
         android:layout_height="32dp"
-        android:layout_marginEnd="48dp"
-        android:rotation="-90"
-        app:layout_constraintEnd_toEndOf="@+id/steering_img"
-        app:layout_constraintTop_toBottomOf="@+id/steering_img"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="70dp"
+        android:scaleX="2"
+        android:scaleY="2"
+        app:layout_constraintRight_toLeftOf="@+id/steering_img"
+        app:layout_constraintBottom_toBottomOf="@+id/steering_img"
         app:srcCompat="@drawable/arrow" />
 
     <ImageView
         android:id="@+id/right_arrow"
         android:layout_width="34dp"
         android:layout_height="32dp"
-        android:layout_marginEnd="48dp"
-        android:rotation="-90"
-        android:scaleX="-1"
-        app:layout_constraintBottom_toTopOf="@+id/steering_img"
-        app:layout_constraintEnd_toEndOf="@+id/steering_img"
+        android:layout_marginStart="60dp"
+        android:layout_marginBottom="70dp"
+        android:rotation="0"
+        android:scaleX="-2"
+        android:scaleY="2"
+        app:layout_constraintLeft_toRightOf="@+id/steering_img"
+        app:layout_constraintBottom_toBottomOf="@+id/steering_img"
         app:srcCompat="@drawable/arrow" />
 
 

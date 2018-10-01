@@ -92,11 +92,11 @@ class ControlActivity : AppCompatActivity() {
                 tips_text.text = tip_list[tip_stage]
             }
             2 -> {
-
+                turnLeft()
                 tips_text.text = tip_list[tip_stage]
             }
             3 -> {
-
+                turnRight()
                 tips_text.text = tip_list[tip_stage]
             }
         }
