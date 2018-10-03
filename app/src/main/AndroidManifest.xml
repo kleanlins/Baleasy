@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ControlActivity"
-            android:screenOrientation="landscape"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             />
     </application>

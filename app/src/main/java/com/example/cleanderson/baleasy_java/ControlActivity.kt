@@ -35,7 +35,8 @@ class ControlActivity : AppCompatActivity() {
                 "Inicio da Baliza",
                 "Esterça totalmente o volante para o lado indicado",
                 "Agora gire o volante totalmente ao contrário",
-                "Ajuste o volante o necessário para finalizar")
+                "Ajuste o volante o necessário para finalizar",
+                "Baliza finalizada :)")
 
         var rotateLeft: Animation? = null
         var rotateRight: Animation? = null
@@ -86,6 +87,7 @@ class ControlActivity : AppCompatActivity() {
             0 -> {
                 turnLeft()
                 tips_text.text = tip_list[tip_stage]
+                goBack()
             }
             1 -> {
                 turnRight()
@@ -94,10 +96,15 @@ class ControlActivity : AppCompatActivity() {
             2 -> {
                 turnLeft()
                 tips_text.text = tip_list[tip_stage]
+                goAhead()
             }
             3 -> {
                 turnRight()
                 tips_text.text = tip_list[tip_stage]
+                goBack()
+            }
+            4 -> {
+                endBaleasy()
             }
         }
 
@@ -107,8 +114,8 @@ class ControlActivity : AppCompatActivity() {
 
     private fun turnLeft(){
 
-        left_arrow.alpha = 1.0f
-        right_arrow.alpha = 0.0f
+        left_arrow.alpha = 1f
+        right_arrow.alpha = 0f
         left_arrow.startAnimation(blink)
 
         steering_img.clearAnimation()
@@ -117,12 +124,32 @@ class ControlActivity : AppCompatActivity() {
 
     private fun turnRight(){
 
-        right_arrow.alpha = 1.0f
-        left_arrow.alpha = 0.0f
+        right_arrow.alpha = 1f
+        left_arrow.alpha = 0f
         right_arrow.startAnimation(blink)
 
         steering_img.clearAnimation()
         steering_img.startAnimation(rotateRight)
+    }
+
+    private fun goAhead(){
+        rear_arrow.alpha = 0f
+        rear_arrow.clearAnimation()
+
+        front_arrow.alpha = 1f
+        front_arrow.startAnimation(blink)
+    }
+
+    private fun goBack(){
+        front_arrow.alpha = 0f
+        front_arrow.clearAnimation()
+
+        rear_arrow.alpha = 1f
+        rear_arrow.startAnimation(blink)
+    }
+
+    private fun endBaleasy(){
+
     }
 
     private fun scaleValue(value: Int): Float{
@@ -171,7 +198,7 @@ class ControlActivity : AppCompatActivity() {
                     sensor_rl.scaleY = scaleValue(lv_rl)
                     sensor_rr.scaleY = scaleValue(lv_rr)
 
-                    delay(150)
+                    delay(17)
 
                 }
             }
