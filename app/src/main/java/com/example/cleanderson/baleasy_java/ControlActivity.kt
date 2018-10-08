@@ -15,9 +15,9 @@ import android.widget.TextView
 import kotlinx.android.synthetic.main.control_layout.*
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.Main
-import kotlinx.coroutines.experimental.android.UI
 import java.io.IOException
 import java.util.*
+import java.util.concurrent.Executors
 
 class ControlActivity : AppCompatActivity() {
 
@@ -29,6 +29,7 @@ class ControlActivity : AppCompatActivity() {
         var m_isConnected: Boolean = false
         lateinit var m_address: String
 
+        var uiThreadPool = Executors.newCachedThreadPool().asCoroutineDispatcher()
         const val sensor_limit = 30
         var tip_stage: Int = 0
         val tip_list: List<String> = listOf(
@@ -106,6 +107,9 @@ class ControlActivity : AppCompatActivity() {
             4 -> {
                 endBaleasy()
             }
+            else -> {
+                TODO("WHAT HAPPENED?")
+            }
         }
 
         tip_stage++
@@ -149,7 +153,7 @@ class ControlActivity : AppCompatActivity() {
     }
 
     private fun endBaleasy(){
-
+        TODO("Still have to make some UI elements go alpha=0 and others to blink.")
     }
 
     private fun scaleValue(value: Int): Float{
@@ -161,35 +165,40 @@ class ControlActivity : AppCompatActivity() {
         return ((lValue/0.3f)/100) * 2.3f
     }
 
+    private suspend fun readFromArduino(scn: Scanner): List<String> = withContext(Dispatchers.IO){
+        val line = scn.nextLine()
+        Log.i("device", line)
+
+        line.split(" ")
+    }
+
+
     private fun startStream(fl: TextView, fr: TextView, rl: TextView, rr: TextView) {
+        val scanner = Scanner(m_bluetoothSocket!!.inputStream)
+        var sensorValues: List<String>
+
         if (m_bluetoothSocket != null) {
-            GlobalScope.async(Dispatchers.Main){
+            GlobalScope.launch(Dispatchers.Main) {
 
-                val scanner = Scanner(m_bluetoothSocket!!.inputStream)
-                var line: String
-                var sensorValues: List<String>
+                while (true) {
 
-                while(true) {
-                    line = scanner.nextLine()
-                    Log.i("device", line)
+                    sensorValues = readFromArduino(scanner)
 
-                    sensorValues = line.split(" ")
+                    fl.text = sensorValues[0] + "cm"
+                    fr.text = sensorValues[1] + "cm"
+                    rl.text = sensorValues[2] + "cm"
+                    rr.text = sensorValues[3] + "cm"
 
-                    fl.text = sensorValues[0].toInt().toString() + "cm"
-                    fr.text = sensorValues[1].toInt().toString() + "cm"
-                    rl.text = sensorValues[2].toInt().toString() + "cm"
-                    rr.text = sensorValues[3].toInt().toString() + "cm"
-
-                    if(sensorValues[0].toInt() != 0)
+                    if (sensorValues[0].toInt() != 0)
                         lv_fl = sensorValues[0].toInt()
 
-                    if(sensorValues[1].toInt() != 0)
+                    if (sensorValues[1].toInt() != 0)
                         lv_fr = sensorValues[1].toInt()
 
-                    if(sensorValues[2].toInt() != 0)
+                    if (sensorValues[2].toInt() != 0)
                         lv_rl = sensorValues[2].toInt()
 
-                    if(sensorValues[3].toInt() != 0)
+                    if (sensorValues[3].toInt() != 0)
                         lv_rr = sensorValues[3].toInt()
 
 
