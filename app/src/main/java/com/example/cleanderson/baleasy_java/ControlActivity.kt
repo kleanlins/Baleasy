@@ -45,6 +45,7 @@ class ControlActivity : AppCompatActivity() {
         var lv_fr: Int = 0
         var lv_rl: Int = 0
         var lv_rr: Int = 0
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,6 +68,11 @@ class ControlActivity : AppCompatActivity() {
         rotateRight = AnimationUtils.loadAnimation(this, R.anim.rotate_right)
         blink = AnimationUtils.loadAnimation(this, R.anim.blink)
 
+        sensor_fl.alpha = 1f
+        sensor_fr.alpha = 1f
+        sensor_rl.alpha = 1f
+        sensor_rr.alpha = 1f
+
 
     }
 
@@ -74,9 +80,18 @@ class ControlActivity : AppCompatActivity() {
 
         Log.i("STATE", tip_stage.toString())
 
-        if(tip_stage == 4) {
+        if(tip_stage == 5) {
+
             next_step_btn.text = "START"
             tip_stage = 0
+
+            steering_img.alpha = 1f
+            sensor_fl.alpha = 1f
+            sensor_fr.alpha = 1f
+            sensor_rl.alpha = 1f
+            sensor_rr.alpha = 1f
+
+            done_img.alpha = 0f
         }
         else
             next_step_btn.text = "NEXT"
@@ -84,9 +99,7 @@ class ControlActivity : AppCompatActivity() {
 
         when(tip_stage){
             0 -> {
-                turnLeft()
                 tips_text.text = tip_list[tip_stage]
-                goBack()
             }
             1 -> {
                 turnRight()
@@ -103,7 +116,9 @@ class ControlActivity : AppCompatActivity() {
                 goBack()
             }
             4 -> {
+                tips_text.text = tip_list[tip_stage]
                 endBaleasy()
+                next_step_btn.text = "END"
             }
             else -> {
                 TODO("WHAT HAPPENED?")
@@ -151,7 +166,19 @@ class ControlActivity : AppCompatActivity() {
     }
 
     private fun endBaleasy(){
-        TODO("Still have to make some UI elements go alpha=0 and others to blink.")
+        steering_img.alpha = 0f
+        front_arrow.alpha = 0f
+        rear_arrow.alpha = 0f
+        left_arrow.alpha = 0f
+        right_arrow.alpha = 0f
+
+        sensor_fl.alpha = 0f
+        sensor_fr.alpha = 0f
+        sensor_rl.alpha = 0f
+        sensor_rr.alpha = 0f
+
+        done_img.alpha = 1f
+        done_img.startAnimation(blink)
     }
 
     private fun scaleValue(value: Int): Float{
