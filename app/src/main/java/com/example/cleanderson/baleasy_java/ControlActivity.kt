@@ -17,7 +17,6 @@ import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.Main
 import java.io.IOException
 import java.util.*
-import java.util.concurrent.Executors
 
 class ControlActivity : AppCompatActivity() {
 
@@ -29,7 +28,6 @@ class ControlActivity : AppCompatActivity() {
         var m_isConnected: Boolean = false
         lateinit var m_address: String
 
-        var uiThreadPool = Executors.newCachedThreadPool().asCoroutineDispatcher()
         const val sensor_limit = 30
         var tip_stage: Int = 0
         val tip_list: List<String> = listOf(
