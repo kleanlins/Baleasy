@@ -42,8 +42,10 @@ class ControlActivity : AppCompatActivity() {
         var blink: Animation? = null
 
         var lv_fl: Int = 0
+        var lv_fc: Int = 0
         var lv_fr: Int = 0
         var lv_rl: Int = 0
+        var lv_rc: Int = 0
         var lv_rr: Int = 0
 
     }
