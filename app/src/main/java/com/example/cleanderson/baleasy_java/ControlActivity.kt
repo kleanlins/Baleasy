@@ -71,8 +71,10 @@ class ControlActivity : AppCompatActivity() {
         blink = AnimationUtils.loadAnimation(this, R.anim.blink)
 
         sensor_fl.alpha = 1f
+        sensor_fc.alpha = 1f
         sensor_fr.alpha = 1f
         sensor_rl.alpha = 1f
+        sensor_rc.alpha = 1f
         sensor_rr.alpha = 1f
 
 
@@ -89,8 +91,10 @@ class ControlActivity : AppCompatActivity() {
 
             steering_img.alpha = 1f
             sensor_fl.alpha = 1f
+            sensor_fc.alpha = 1f
             sensor_fr.alpha = 1f
             sensor_rl.alpha = 1f
+            sensor_rc.alpha = 1f
             sensor_rr.alpha = 1f
 
             done_img.alpha = 0f
@@ -175,8 +179,10 @@ class ControlActivity : AppCompatActivity() {
         right_arrow.alpha = 0f
 
         sensor_fl.alpha = 0f
+        sensor_fc.alpha = 0f
         sensor_fr.alpha = 0f
         sensor_rl.alpha = 0f
+        sensor_rc.alpha = 0f
         sensor_rr.alpha = 0f
 
         done_img.alpha = 1f
@@ -212,27 +218,35 @@ class ControlActivity : AppCompatActivity() {
                     sensorValues = readFromArduino(scanner)
 
                     fl.text = sensorValues[0] + "cm"
-                    fr.text = sensorValues[1] + "cm"
-                    rl.text = sensorValues[2] + "cm"
-                    rr.text = sensorValues[3] + "cm"
+                    fr.text = sensorValues[2] + "cm"
+                    rl.text = sensorValues[3] + "cm"
+                    rr.text = sensorValues[5] + "cm"
 
                     if (sensorValues[0].toInt() != 0)
                         lv_fl = sensorValues[0].toInt()
 
                     if (sensorValues[1].toInt() != 0)
-                        lv_fr = sensorValues[1].toInt()
+                        lv_fc = sensorValues[0].toInt()
 
                     if (sensorValues[2].toInt() != 0)
-                        lv_rl = sensorValues[2].toInt()
+                        lv_fr = sensorValues[1].toInt()
 
                     if (sensorValues[3].toInt() != 0)
+                        lv_rl = sensorValues[2].toInt()
+
+                    if (sensorValues[4].toInt() != 0)
+                        lv_rc = sensorValues[0].toInt()
+
+                    if (sensorValues[5].toInt() != 0)
                         lv_rr = sensorValues[3].toInt()
 
 
-                    sensor_fl.scaleY = scaleValue(lv_fl)
-                    sensor_fr.scaleY = scaleValue(lv_fr)
-                    sensor_rl.scaleY = scaleValue(lv_rl)
-                    sensor_rr.scaleY = scaleValue(lv_rr)
+                    sensor_fl.scaleY = lv_fl.toFloat()
+                    sensor_fc.scaleY = lv_fc.toFloat()
+                    sensor_fr.scaleY = lv_fr.toFloat()
+                    sensor_rl.scaleY = lv_rl.toFloat()
+                    sensor_rc.scaleY = lv_rc.toFloat()
+                    sensor_rr.scaleY = lv_rr.toFloat()
 
                     delay(17)
 
