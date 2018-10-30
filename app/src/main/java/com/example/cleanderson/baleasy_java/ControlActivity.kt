@@ -190,12 +190,12 @@ class ControlActivity : AppCompatActivity() {
     }
 
     private fun scaleValue(value: Int): Float{
-        var lValue = value
+        var lValue = value/100.0f
 
-        if(lValue > sensor_limit)
-            lValue = sensor_limit
+//        if(lValue > sensor_limit)
+//            lValue = sensor_limit
 
-        return ((lValue/0.3f)/100) * 2.3f
+        return value/lValue
     }
 
     private suspend fun readFromArduino(scn: Scanner): List<String> = withContext(Dispatchers.IO){
@@ -241,12 +241,12 @@ class ControlActivity : AppCompatActivity() {
                         lv_rr = sensorValues[3].toInt()
 
 
-                    sensor_fl.scaleY = lv_fl.toFloat()
-                    sensor_fc.scaleY = lv_fc.toFloat()
-                    sensor_fr.scaleY = lv_fr.toFloat()
-                    sensor_rl.scaleY = lv_rl.toFloat()
-                    sensor_rc.scaleY = lv_rc.toFloat()
-                    sensor_rr.scaleY = lv_rr.toFloat()
+                    sensor_fl.scaleY = scaleValue(lv_fl)
+                    sensor_fc.scaleY = scaleValue(lv_fc)
+                    sensor_fr.scaleY = scaleValue(lv_fr)
+                    sensor_rl.scaleY = scaleValue(lv_rl)
+                    sensor_rc.scaleY = scaleValue(lv_rc)
+                    sensor_rr.scaleY = scaleValue(lv_rr)
 
                     delay(17)
 
