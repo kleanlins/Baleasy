@@ -178,7 +178,7 @@
         android:scaleY="2.3"
         android:alpha="0.7"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="@+id/car_img"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/car_img"
         app:srcCompat="@drawable/trapezium" />
 
@@ -258,7 +258,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/car_img"
         app:srcCompat="@drawable/red_arrow"/>
-    
+
     <ImageView
         android:id="@+id/done_img"
         android:layout_width="120dp"

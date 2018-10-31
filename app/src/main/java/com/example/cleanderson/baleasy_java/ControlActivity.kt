@@ -77,6 +77,10 @@ class ControlActivity : AppCompatActivity() {
         sensor_rc.alpha = 1f
         sensor_rr.alpha = 1f
 
+        front_left.alpha = 0f
+        front_right.alpha = 0f
+        rear_left.alpha = 0f
+        rear_right.alpha = 0f
 
     }
 
@@ -185,17 +189,15 @@ class ControlActivity : AppCompatActivity() {
         sensor_rc.alpha = 0f
         sensor_rr.alpha = 0f
 
+        steering_img.clearAnimation()
         done_img.alpha = 1f
         done_img.startAnimation(blink)
     }
 
     private fun scaleValue(value: Int): Float{
-        var lValue = value/100.0f
+        var lValue = 250/100.0f
 
-//        if(lValue > sensor_limit)
-//            lValue = sensor_limit
-
-        return value/lValue
+        return ((value/lValue)/100) * 2.3f
     }
 
     private suspend fun readFromArduino(scn: Scanner): List<String> = withContext(Dispatchers.IO){
@@ -226,19 +228,19 @@ class ControlActivity : AppCompatActivity() {
                         lv_fl = sensorValues[0].toInt()
 
                     if (sensorValues[1].toInt() != 0)
-                        lv_fc = sensorValues[0].toInt()
+                        lv_fc = sensorValues[1].toInt()
 
                     if (sensorValues[2].toInt() != 0)
-                        lv_fr = sensorValues[1].toInt()
+                        lv_fr = sensorValues[2].toInt()
 
                     if (sensorValues[3].toInt() != 0)
-                        lv_rl = sensorValues[2].toInt()
+                        lv_rl = sensorValues[3].toInt()
 
                     if (sensorValues[4].toInt() != 0)
-                        lv_rc = sensorValues[0].toInt()
+                        lv_rc = sensorValues[4].toInt()
 
                     if (sensorValues[5].toInt() != 0)
-                        lv_rr = sensorValues[3].toInt()
+                        lv_rr = sensorValues[5].toInt()
 
 
                     sensor_fl.scaleY = scaleValue(lv_fl)
